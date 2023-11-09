@@ -432,6 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d4295d5ab1e497db573b1978371294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteGenerator: {fileID: 937728643}
 --- !u!114 &1983175446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteFilter:
-    note: 1
+    note: 0
     octave: 0
   noteOnEvent:
     m_PersistentCalls:
