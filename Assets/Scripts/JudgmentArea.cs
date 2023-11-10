@@ -20,6 +20,19 @@ public class JudgmentArea : MonoBehaviour
             if (hit2D)
             {
                 Debug.Log("ノーツがぶつかった！");
+                float distance = Mathf.Abs(hit2D.transform.position.y - transform.position.y);
+                if (distance < 3)
+                {
+                    Debug.Log("Good!");
+                }
+                else if (distance <5)
+                {
+                    Debug.Log("まあまあ");
+                }
+                else
+                {
+                    Debug.Log("えーーー！");
+                }
                 // ぶつかったものを破壊する
                 Destroy(hit2D.collider.gameObject);
             }
