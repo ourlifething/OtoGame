@@ -10,7 +10,7 @@ public class NoteGenerator : MonoBehaviour
 
     private void Start()
     {
-        SpawnNote();
+        //SpawnNote();
     }
     public void SpawnNote()
     {
