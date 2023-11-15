@@ -11,6 +11,9 @@ public class JudgmentArea : MonoBehaviour
     // ・どれくらいの近さなのか＝＞評価
 
     [SerializeField] float radius;
+
+    // GameManagerのAddScoreを実行したい
+    [SerializeField] Gamemanager gameManager = default;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -23,15 +26,18 @@ public class JudgmentArea : MonoBehaviour
                 float distance = Mathf.Abs(hit2D.transform.position.y - transform.position.y);
                 if (distance < 3)
                 {
-                    Debug.Log("Good!");
+                    //Debug.Log("Good!");
+                    gameManager.AddScore(100);
                 }
                 else if (distance <5)
                 {
-                    Debug.Log("まあまあ");
+                    //Debug.Log("まあまあ");
+                    gameManager.AddScore(10);
                 }
                 else
                 {
                     Debug.Log("えーーー！");
+                    gameManager.AddScore(0);
                 }
                 // ぶつかったものを破壊する
                 Destroy(hit2D.collider.gameObject);
