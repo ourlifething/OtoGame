@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class NoteGenerator : MonoBehaviour
 {
-    [SerializeField] Note notePrefab;
-    // Noteを生成する
-    // Prefab:Instantiate
 
-    private void Start()
+    // Noteを生成する
+    [SerializeField] ObjectPool objectPool;
+    private void Awake()
     {
-        //SpawnNote();
+        objectPool.CreatePool(10);
     }
-    public void SpawnNote()
+    public void SpawnNote(Vector3 pos)
     {
-        // Instantiate(生成したいもの、場所、角度);
-        Instantiate(notePrefab, new Vector3(0, 10, 0), Quaternion.identity);
+        objectPool.GetObj(pos);
     }
 
 }

@@ -7,33 +7,19 @@ using UnityEngine.UI;
 
 public class Gamemanager : MonoBehaviour
 {
-    // TODO : ゲーム開始の実装
-    // コルーチンを使う：時間を制御したい 3.2.1のカウントダウン
-    //タイムラインのplay on awakeを外してスクリプトでタイムライン再生したい
-    // ゲームの実装：タイムラインの終了を検知する。
-    // シグナル(signal)を使う
-    // UIの作成
-    // カウントダウンのテキスト
-    // ゲーム終了時のリザルトパネル
-    // ゲーム中スコア表示
-    // タイトルへ
-    // リトライボタン
-
-    // UIへの反映
-    // カウントダウンのテキスト
     [SerializeField] Text countDounText = default;
     // ゲーム終了時のリザルトパネルの表示
     [SerializeField] GameObject resultPanel = default;
 
     // スコア上昇：scoreの数値を大きくするuiにはんえいさせる
     [SerializeField] Text scoreText = default;
-
-
+    [SerializeField] Text resultScoreText = default;
     [SerializeField] PlayableDirector playableDirector;
+
+    
 
     // スコアの実装
     int score;
-
 
     void Start()
     {
@@ -58,8 +44,6 @@ public class Gamemanager : MonoBehaviour
         //Debug.Log("ゲーム開始！");
         playableDirector.Play();
     }
-    // どのたいみんぐでスコアを上昇させるか
-    // スコア上昇：scoreの数値を大きくするUIに反映させる
     public void AddScore(int point)
     {
         score += point;
@@ -71,6 +55,7 @@ public class Gamemanager : MonoBehaviour
     {
         Debug.Log("ゲーム終了");
         // リザルトパネルの表示
+        resultScoreText.text = score.ToString();
         resultPanel.SetActive(true);
     }
 

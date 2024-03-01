@@ -1,48 +1,65 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
 public class JudgmentArea : MonoBehaviour
 {
-    // ノーツが落ちてきた時に、キーボードを押したら判定したい
-    // ・キー入力
-    // ・近くにノーツがあるか:Rayをとばして当たったら近い！
-
-    // ・どれくらいの近さなのか＝＞評価
 
     [SerializeField] float radius;
-
-    // GameManagerのAddScoreを実行したい
+    // GameManagerのAddScoreを実行
     [SerializeField] Gamemanager gameManager = default;
+    [SerializeField] KeyCode keyCode;
+    [SerializeField] GameObject textEffectPrefab;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(keyCode))
         {
-            Debug.Log("aを入力"); 
-            RaycastHit2D hit2D =  Physics2D.CircleCast(transform.position, radius, Vector3.zero);
+            RaycastHit2D[] hits2D =  Physics2D.CircleCastAll(transform.position, radius, Vector3.zero);
+            // 並び替えて一番小さい数を消す
+            if(hits2D.Length == 0)
+            {
+                return;
+            }
+            List<RaycastHit2D> reycastHit2Ds = hits2D.ToList();
+            reycastHit2Ds.Sort((a,b) => (int)(a.transform.position.y - b.transform.position.y));
+            RaycastHit2D hit2D = reycastHit2Ds[0];
+
             if (hit2D)
             {
-                Debug.Log("ノーツがぶつかった！");
+                // Debug.Log("ノーツがぶつかった！");
                 float distance = Mathf.Abs(hit2D.transform.position.y - transform.position.y);
                 if (distance < 3)
                 {
                     //Debug.Log("Good!");
                     gameManager.AddScore(100);
+                    SpawnTextEffect("Excellent",hit2D.transform.position);
                 }
                 else if (distance <5)
                 {
                     //Debug.Log("まあまあ");
                     gameManager.AddScore(10);
+                    SpawnTextEffect("Good",hit2D.transform.position);
                 }
                 else
                 {
-                    Debug.Log("えーーー！");
+                    //Debug.Log("えーーー！");
                     gameManager.AddScore(0);
+                    SpawnTextEffect("Bad",hit2D.transform.position);
                 }
                 // ぶつかったものを破壊する
-                Destroy(hit2D.collider.gameObject);
+                //Destroy(hit2D.collider.gameObject);
+                hit2D.collider.gameObject.SetActive(false);
             }
         }
+    }
+    void SpawnTextEffect(string message, Vector3 position)
+    {
+        GameObject effect = Instantiate(textEffectPrefab, position, quaternion.identity);
+        JudgementEffect judgementEffect = effect.GetComponent<JudgementEffect>();
+        judgementEffect.SetText(message);
+        //Destroy(effect, 0.5f);
     }
     //可視化ツール
     void OnDrawGizmosSelected() 
